@@ -49,7 +49,7 @@ export default function LoginPage() {
       <div className="relative w-[420px] bg-white p-8 shadow-xl rounded-2xl border border-gray-100">
 
         <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
-          Welcome Back 👋
+          Welcome To Hidden Makers 👋
         </h1>
 
         {error && (
