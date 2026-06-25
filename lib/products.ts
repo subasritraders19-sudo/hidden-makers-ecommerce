@@ -34,7 +34,7 @@ export const products: Product[] = [
   {
     id: 'mudavatukal-powder',
     name: 'Mudavatukal Powder',
-    price: 349,
+    price: 1,
     category: 'food',
     subtitle: 'Traditional Health Mix',
     description:
