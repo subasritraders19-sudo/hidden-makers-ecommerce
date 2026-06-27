@@ -104,7 +104,7 @@ export function SiteFooter() {
             <li className="flex items-start gap-3">
               <MapPin className="h-4 w-4 text-primary mt-0.5" />
               <span>
-                Subasri Traders, Pudukottai - 614616, Tamil Nadu
+                Subasri Traders, Pudukottai - 614616, Tamil Nadu, India
               </span>
             </li>
 

@@ -6,9 +6,13 @@ import { useStore } from "@/components/store-provider"
 
 
 declare global {
-  interface Window {
-    Razorpay:any
-  }
+
+interface Window {
+
+Razorpay:any
+
+}
+
 }
 
 
@@ -16,30 +20,43 @@ declare global {
 export default function CheckoutForm(){
 
 
+
 const {
+
 cart,
+
 cartTotal,
+
 setCartOpen,
+
 clearCart
+
 }=useStore()
 
 
 
+
 const [open,setOpen]=useState(false)
+
 const [success,setSuccess]=useState(false)
+
 const [loading,setLoading]=useState(false)
+
 
 
 
 const [shipping,setShipping]=useState({
 
 name:"",
+email:"",
 phone:"",
 address:"",
 city:"",
 pincode:""
 
 })
+
+
 
 
 
@@ -58,18 +75,19 @@ setShipping({
 
 
 
-// BLACK + GOLD BLAST
+
 
 function successBlast(){
 
 
-const duration = 3000
+const duration=3000
 
-const end = Date.now()+duration
+const end=Date.now()+duration
 
 
 
 function frame(){
+
 
 
 confetti({
@@ -90,7 +108,9 @@ colors:[
 "#D4AF37"
 ]
 
+
 })
+
 
 
 
@@ -112,7 +132,9 @@ colors:[
 "#D4AF37"
 ]
 
+
 })
+
 
 
 
@@ -123,7 +145,9 @@ requestAnimationFrame(frame)
 }
 
 
+
 }
+
 
 
 frame()
@@ -135,11 +159,13 @@ frame()
 
 
 
+
 async function payment(){
 
 
 if(
 !shipping.name ||
+!shipping.email ||
 !shipping.phone ||
 !shipping.address ||
 !shipping.city ||
@@ -166,12 +192,14 @@ const orderRes = await fetch("/api/create-order",{
 method:"POST",
 
 headers:{
+
 "Content-Type":"application/json"
+
 },
 
 body:JSON.stringify({
 
-amount:cartTotal * 100
+amount:cartTotal*100
 
 })
 
@@ -185,7 +213,7 @@ const order = await orderRes.json()
 
 if(!order.order_id){
 
-throw new Error("Order failed")
+throw new Error("Order creation failed")
 
 }
 
@@ -220,8 +248,11 @@ prefill:{
 
 name:shipping.name,
 
-contact:shipping.phone
 
+email:shipping.email,
+
+
+contact:shipping.phone
 
 },
 
@@ -229,12 +260,9 @@ contact:shipping.phone
 
 theme:{
 
-
 color:"#D4AF37"
 
 },
-
-
 
 
 
@@ -258,17 +286,82 @@ body:JSON.stringify(response)
 
 
 
-
 const verify = await verifyRes.json()
 
 
 
-if(verify.success){
+if(!verify.success){
+
+alert("Payment verification failed")
+
+return
+
+}
 
 
-// SAVE ORDER TO SUPABASE
 
-const saveRes = await fetch("/api/save-order",{
+
+
+// ==========================
+// GENERATE PDF INVOICE
+// ==========================
+
+
+const invoiceRes = await fetch("/api/generate-invoice",{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json"
+
+},
+
+body:JSON.stringify({
+
+shipping,
+
+items:cart,
+
+amount:cartTotal
+
+})
+
+})
+
+
+const invoice = await invoiceRes.json()
+
+
+console.log("🧾 INVOICE RESPONSE:",invoice)
+
+
+
+if(!invoice.success){
+
+console.log("INVOICE ERROR:",invoice.error)
+
+throw new Error(invoice.error || "Invoice failed")
+
+}
+
+
+
+const invoice_pdf = invoice.pdf
+
+
+
+console.log(
+"PDF:",
+invoice_pdf
+)
+
+// ==========================
+// SAVE ORDER
+// ==========================
+
+
+await fetch("/api/save-order",{
 
 method:"POST",
 
@@ -290,22 +383,18 @@ items:cart
 
 })
 
+
 })
 
 
-const saved = await saveRes.json()
-
-
-if(!saved.success){
-
-console.log("Order save failed")
-
-}
 
 
 
 
-// SEND ORDER MAIL
+
+// ==========================
+// SEND MAIL WITH PDF
+// ==========================
 
 
 const mailRes = await fetch("/api/order-mail",{
@@ -326,27 +415,28 @@ payment:response,
 
 amount:cartTotal,
 
-items:cart
+items:cart,
+
+invoice_pdf
 
 })
 
+
 })
+
 
 
 const mail = await mailRes.json()
 
 
-if(!mail.success){
 
-console.log("Mail failed")
-
-}
-
-
+console.log(
+"MAIL:",
+mail
+)
 
 
 
-// AFTER EVERYTHING SUCCESS
 
 
 clearCart()
@@ -358,16 +448,11 @@ setSuccess(true)
 successBlast()
 
 
-}
-
-
 
 }
 
 
-
 }
-
 
 
 
@@ -383,13 +468,11 @@ alert("Payment Failed")
 })
 
 
-
 razorpay.open()
 
 
 
 }
-
 
 
 catch(err){
@@ -401,15 +484,18 @@ alert("Something went wrong")
 }
 
 
-
 finally{
+
 
 setLoading(false)
 
+
 }
 
 
 }
+
+
 
 
 
@@ -418,6 +504,7 @@ setLoading(false)
 
 
 return(
+
 
 <>
 
@@ -441,11 +528,11 @@ Proceed to Checkout
 
 
 
-
 {
 open && !success &&
 
-<div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm">
+
+<div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70">
 
 
 <div className="bg-card p-8 rounded-xl w-[90%] max-w-md">
@@ -459,47 +546,98 @@ Shipping Details
 
 
 
+
+
 <input
+
 name="name"
+
 placeholder="Full Name"
+
 onChange={change}
+
 className="w-full border p-3 mb-3 rounded"
+
 />
 
 
 
 <input
+
+name="email"
+
+type="email"
+
+placeholder="Email Address"
+
+onChange={change}
+
+className="w-full border p-3 mb-3 rounded"
+
+/>
+
+
+
+
+
+<input
+
 name="phone"
+
 placeholder="Phone Number"
+
 onChange={change}
+
 className="w-full border p-3 mb-3 rounded"
+
 />
 
 
 
+
+
 <input
+
 name="address"
+
 placeholder="Address"
+
 onChange={change}
+
 className="w-full border p-3 mb-3 rounded"
+
 />
 
 
 
+
+
 <input
+
 name="city"
+
 placeholder="City"
+
 onChange={change}
+
 className="w-full border p-3 mb-3 rounded"
+
 />
 
 
 
+
+
 <input
+
 name="pincode"
+
 placeholder="Pincode"
+
 onChange={change}
+
 className="w-full border p-3 mb-5 rounded"
+
 />
 
 
@@ -518,11 +656,17 @@ className="w-full bg-primary text-primary-foreground py-3 rounded"
 
 
 {
+
 loading
+
 ?
+
 "Processing Payment..."
+
 :
+
 "Pay Now"
+
 }
 
 
@@ -535,8 +679,8 @@ loading
 
 </div>
 
-}
 
+}
 
 
 
@@ -550,10 +694,11 @@ loading
 success &&
 
 
-<div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-md">
+<div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/80">
 
 
-<div className="bg-white w-[90%] max-w-md rounded-3xl p-10 text-center shadow-2xl border border-[#D4AF37]">
+<div className="bg-white w-[90%] max-w-md rounded-3xl p-10 text-center border border-[#D4AF37]">
+
 
 
 <div className="text-6xl mb-5">
@@ -561,6 +706,7 @@ success &&
 🎉
 
 </div>
+
 
 
 
@@ -572,11 +718,12 @@ Payment Successful
 
 
 
-<p className="mt-4 text-gray-700 text-lg">
+<p className="mt-4 text-gray-700">
 
 Your order has been confirmed.
 
 </p>
+
 
 
 
@@ -592,7 +739,6 @@ Thank you for shopping with Hidden Makers
 
 <button
 
-
 onClick={()=>{
 
 
@@ -604,10 +750,12 @@ setCartOpen(false)
 
 window.location.href="/"
 
+
 }}
 
 
-className="mt-8 bg-black text-[#D4AF37] px-10 py-3 rounded-full font-semibold hover:bg-gray-900"
+className="mt-8 bg-black text-[#D4AF37] px-10 py-3 rounded-full"
+
 
 >
 
@@ -619,7 +767,9 @@ Continue Shopping
 
 
 
+
 </div>
+
 
 
 </div>
@@ -629,9 +779,8 @@ Continue Shopping
 
 
 
-
-
 </>
+
 
 )
 

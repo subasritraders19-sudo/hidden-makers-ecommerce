@@ -34,7 +34,7 @@ export const products: Product[] = [
   {
     id: 'mudavatukal-powder',
     name: 'Mudavatukal Powder',
-    price: 1,
+    price: 299,
     category: 'food',
     subtitle: 'Traditional Health Mix',
     description:
@@ -44,7 +44,7 @@ export const products: Product[] = [
   {
     id: 'kollu-kanji',
     name: 'Kollu Kanji Mix',
-    price: 299,
+    price: 199,
     category: 'food',
     subtitle: 'Horse Gram Porridge',
     description:
@@ -54,7 +54,7 @@ export const products: Product[] = [
   {
     id: 'pirandai-powder',
     name: 'Pirandai Powder',
-    price: 329,
+    price: 279,
     category: 'food',
     subtitle: 'Adamant Creeper Herb',
     description:
@@ -64,7 +64,7 @@ export const products: Product[] = [
   {
     id: 'abc-malt',
     name: 'ABC Malt',
-    price: 399,
+    price: 199,
     category: 'food',
     subtitle: 'Apple Beetroot Carrot',
     description:
@@ -74,7 +74,7 @@ export const products: Product[] = [
   {
     id: 'sweet-potato-mix',
     name: 'Sweet Potato Mix',
-    price: 359,
+    price: 199,
     category: 'food',
     subtitle: 'Wholesome Energy Blend',
     description:
@@ -84,7 +84,7 @@ export const products: Product[] = [
   {
     id: 'ash-gourd-mix',
     name: 'Ash Gourd Mix',
-    price: 369,
+    price: 249,
     category: 'food',
     subtitle: 'Cooling Wellness Mix',
     description:
@@ -94,7 +94,7 @@ export const products: Product[] = [
   {
     id: 'valaipoo-powder',
     name: 'Valaipoo Powder',
-    price: 339,
+    price: 119,
     category: 'food',
     subtitle: 'Banana Flower Herb',
     description:

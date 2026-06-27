@@ -2,52 +2,10 @@ import nodemailer from "nodemailer"
 
 
 
-const transporter = nodemailer.createTransport({
-
-host: process.env.SMTP_HOST, // smtpout.secureserver.net
-
-port: Number(process.env.SMTP_PORT), // 465
-
-secure: Number(process.env.SMTP_PORT) === 465,
-
-auth: {
-
-user: process.env.EMAIL_USER,
-
-pass: process.env.EMAIL_PASS,
-
-},
+export async function POST(req:Request){
 
 
-pool:true,
-
-maxConnections:5,
-
-maxMessages:100,
-
-
-connectionTimeout:10000,
-
-socketTimeout:10000
-
-
-})
-
-
-
-
-
-export async function POST(req: Request) {
-
-
-try {
-
-
-const body = await req.json()
-
-
-console.log("📦 ORDER MAIL DATA:",body)
-
+try{
 
 
 const {
@@ -58,15 +16,127 @@ payment,
 
 amount,
 
-items
+items,
 
-}=body
-
-
+invoice_pdf
 
 
+}=await req.json()
 
-const info = await transporter.sendMail({
+
+
+console.log(
+"MAIL PDF RECEIVED:",
+invoice_pdf ? "YES":"NO"
+)
+
+
+
+
+
+const transporter = nodemailer.createTransport({
+
+
+host:"smtpout.secureserver.net",
+
+
+port:587,
+
+
+secure:false,
+
+
+auth:{
+
+
+user:process.env.EMAIL_USER,
+
+
+pass:process.env.EMAIL_PASS
+
+
+},
+
+
+
+connectionTimeout:20000,
+
+
+greetingTimeout:20000,
+
+
+socketTimeout:20000,
+
+
+
+tls:{
+
+
+rejectUnauthorized:false
+
+
+}
+
+
+})
+
+
+
+
+
+// CHECK SMTP CONNECTION
+
+await transporter.verify()
+
+
+
+console.log(
+"SMTP CONNECTED"
+)
+
+
+
+
+
+let attachments:any[]=[]
+
+
+
+
+if(invoice_pdf){
+
+
+
+attachments.push({
+
+
+filename:"Hidden-Makers-GST-Invoice.pdf",
+
+
+
+content:invoice_pdf.replace(
+
+"data:application/pdf;base64,",
+
+""
+
+),
+
+
+
+encoding:"base64"
+
+
+})
+
+
+}
+
+
+
+
+
+const mail = await transporter.sendMail({
 
 
 
@@ -84,82 +154,86 @@ subject:"🛒 New Order Received - Hidden Makers",
 
 html:`
 
-<div style="font-family:Arial;padding:20px">
+
+<h2>🎉 New Order Received</h2>
 
 
-<h2 style="color:#16a34a">
 
-🎉 New Order Received
+<h3>Customer Details</h3>
 
-</h2>
+
+<p>Name : ${shipping.name}</p>
+
+<p>Email : ${shipping.email}</p>
+
+<p>Phone : ${shipping.phone}</p>
+
+<p>Address : ${shipping.address}</p>
+
+<p>City : ${shipping.city}</p>
+
+<p>Pincode : ${shipping.pincode}</p>
+
 
 
 <hr/>
 
 
-<h3>👤 Customer Details</h3>
+<h3>Payment Details</h3>
 
 
-<p><b>Name:</b> ${shipping?.name || "N/A"}</p>
+<p>
+Payment ID : ${payment.razorpay_payment_id}
+</p>
 
 
-<p><b>Phone:</b> ${shipping?.phone || "N/A"}</p>
+<p>
+Order ID : ${payment.razorpay_order_id}
+</p>
 
 
-<p><b>Address:</b> ${shipping?.address || "N/A"}</p>
-
-
-<p><b>City:</b> ${shipping?.city || "N/A"}</p>
-
-
-<p><b>Pincode:</b> ${shipping?.pincode || "N/A"}</p>
-
-
-
-<h3>💳 Payment Details</h3>
-
-
-<p><b>Payment ID:</b> ${payment?.razorpay_payment_id}</p>
-
-
-<p><b>Order ID:</b> ${payment?.razorpay_order_id}</p>
-
-
-<p><b>Total:</b> ₹${amount}</p>
+<p>
+Amount : ₹${amount}
+</p>
 
 
 
 
-<h3>🛍️ Products</h3>
+<h3>Products</h3>
 
 
 ${
-items?.map((item:any)=>(
+items.map((item:any)=>`
 
-`
 <p>
-• ${item?.product?.name || "Product"} 
-× ${item?.quantity || 1}
+${item.product.name} × ${item.quantity}
 </p>
-`
 
-)).join("")
+`).join("")
 }
+
+
 
 
 <hr/>
 
 
-<p style="color:gray">
-
-Automated order notification from Hidden Makers
-
+<p>
+🧾 GST Invoice attached
 </p>
 
 
-</div>
+<p>
+Hidden Makers
+</p>
 
-`
+
+`,
+
+
+
+attachments
+
 
 })
 
@@ -167,27 +241,32 @@ Automated order notification from Hidden Makers
 
 
 
-console.log("✅ MAIL SENT:",info.messageId)
+console.log(
+"MAIL SENT:",
+mail.messageId
+)
 
 
 
 return Response.json({
 
-success:true,
-
-messageId:info.messageId
+success:true
 
 })
 
 
 
-}
 
+}
 
 catch(error:any){
 
 
-console.error("❌ ORDER MAIL ERROR:",error)
+console.log(
+"MAIL ERROR:",
+error
+)
+
 
 
 return Response.json({
@@ -196,9 +275,7 @@ success:false,
 
 error:error.message
 
-},
-
-{
+},{
 
 status:500
 
@@ -206,6 +283,7 @@ status:500
 
 
 }
+
 
 
 }
