@@ -7,6 +7,9 @@ import { formatPrice } from '@/lib/products'
 import { Button } from '@/components/ui/button'
 import CheckoutForm from "@/components/checkout-form"
 
+// 🔥 IMPORT THIS
+import { useCountry } from '@/components/CountryContext'
+
 export function CartDrawer() {
   const {
     cart,
@@ -17,6 +20,9 @@ export function CartDrawer() {
     removeFromCart,
     clearCart,
   } = useStore()
+
+  // 🔥 COUNTRY DATA
+  const { country } = useCountry()
 
   return (
     <>
@@ -45,8 +51,7 @@ export function CartDrawer() {
           <button
             type="button"
             onClick={() => setCartOpen(false)}
-            aria-label="Close cart"
-            className="text-muted-foreground transition-colors hover:text-primary"
+            className="text-muted-foreground hover:text-primary"
           >
             <X className="h-6 w-6" />
           </button>
@@ -60,10 +65,7 @@ export function CartDrawer() {
               Your cart is empty.
             </p>
 
-            <Button
-              onClick={() => setCartOpen(false)}
-              className="bg-primary text-primary-foreground hover:bg-primary/90"
-            >
+            <Button onClick={() => setCartOpen(false)}>
               Continue Shopping
             </Button>
           </div>
@@ -78,21 +80,20 @@ export function CartDrawer() {
                     className="flex gap-3 border-b border-border pb-4"
                   >
                     {/* Image */}
-                    <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md border border-border">
+                    <div className="relative h-20 w-20 rounded-md overflow-hidden border">
                       <Image
                         src={product.image || '/placeholder.svg'}
                         alt={product.name}
                         fill
                         className="object-cover"
-                        sizes="80px"
                       />
                     </div>
 
                     {/* Details */}
                     <div className="flex flex-1 flex-col">
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex-1">
-                          <h3 className="text-base font-medium leading-6 text-foreground">
+                      <div className="flex justify-between">
+                        <div>
+                          <h3 className="text-base font-medium">
                             {product.name}
                           </h3>
 
@@ -102,9 +103,8 @@ export function CartDrawer() {
                         </div>
 
                         <button
-                          type="button"
                           onClick={() => removeFromCart(product.id)}
-                          className="text-muted-foreground transition-colors hover:text-red-500"
+                          className="text-muted-foreground hover:text-red-500"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -113,25 +113,23 @@ export function CartDrawer() {
                       {/* Quantity */}
                       <div className="mt-3 flex items-center gap-3">
                         <button
-                          type="button"
                           onClick={() =>
                             updateQuantity(product.id, quantity - 1)
                           }
-                          className="flex h-8 w-8 items-center justify-center rounded-md border border-border transition-colors hover:border-primary hover:text-primary"
+                          className="h-8 w-8 border rounded-md flex items-center justify-center"
                         >
                           <Minus className="h-3 w-3" />
                         </button>
 
-                        <span className="w-5 text-center text-sm text-foreground">
+                        <span className="w-5 text-center">
                           {quantity}
                         </span>
 
                         <button
-                          type="button"
                           onClick={() =>
                             updateQuantity(product.id, quantity + 1)
                           }
-                          className="flex h-8 w-8 items-center justify-center rounded-md border border-border transition-colors hover:border-primary hover:text-primary"
+                          className="h-8 w-8 border rounded-md flex items-center justify-center"
                         >
                           <Plus className="h-3 w-3" />
                         </button>
@@ -143,23 +141,29 @@ export function CartDrawer() {
             </div>
 
             {/* Footer */}
-            <div className="shrink-0 border-t border-border bg-card px-6 py-5">
-              <div className="mb-4 flex items-center justify-between">
-                <span className="text-sm uppercase tracking-[0.15em] text-muted-foreground">
+            <div className="border-t px-6 py-5">
+              <div className="mb-2 flex justify-between">
+                <span className="text-sm text-muted-foreground">
                   Subtotal
                 </span>
 
-                <span className="font-serif text-2xl text-primary">
+                <span className="text-2xl text-primary">
                   {formatPrice(cartTotal)}
                 </span>
               </div>
 
+              {/* 🔥 IMPORTANT FIX */}
+              {country.code !== "IN" && (
+                <p className="mb-4 text-xs text-muted-foreground">
+                  You will be charged in INR (₹{cartTotal.toFixed(2)})
+                </p>
+              )}
+
               <CheckoutForm />
 
               <button
-                type="button"
                 onClick={clearCart}
-                className="mt-3 w-full text-center text-xs uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-red-500"
+                className="mt-3 w-full text-xs text-muted-foreground hover:text-red-500"
               >
                 Clear Cart
               </button>

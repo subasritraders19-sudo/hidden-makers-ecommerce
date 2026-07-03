@@ -8,6 +8,10 @@ import { cn } from '@/lib/utils'
 import { useStore } from '@/components/store-provider'
 import { CartDrawer } from '@/components/cart-drawer'
 
+// 🔥 NEW IMPORTS
+import CountrySelector from '@/components/CountrySelector'
+import { useCountry } from '@/components/CountryContext'
+
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/shop', label: 'Shop' },
@@ -19,11 +23,13 @@ const navLinks = [
 export function SiteHeader() {
   const pathname = usePathname()
   const { cartCount, setCartOpen, user } = useStore()
+  const { setCountry } = useCountry() // 🔥 NEW
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-6">
+        
         {/* Logo */}
         <Link
           href="/"
@@ -58,6 +64,11 @@ export function SiteHeader() {
 
         {/* Right actions */}
         <div className="flex items-center gap-2">
+          
+          {/* 🌍 Country Selector */}
+          <CountrySelector onSelect={setCountry} />
+
+          {/* Login */}
           <Link
             href="/login"
             className="hidden items-center gap-2 px-3 py-2 text-sm uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-primary sm:flex"
@@ -65,6 +76,8 @@ export function SiteHeader() {
             <User className="h-4 w-4" />
             {user ? 'Account' : 'Login'}
           </Link>
+
+          {/* Cart */}
           <button
             type="button"
             onClick={() => setCartOpen(true)}
@@ -78,6 +91,8 @@ export function SiteHeader() {
               </span>
             )}
           </button>
+
+          {/* Mobile menu */}
           <button
             type="button"
             onClick={() => setMobileOpen((o) => !o)}

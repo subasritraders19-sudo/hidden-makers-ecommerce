@@ -2,14 +2,26 @@
 
 import Image from 'next/image'
 import { Plus } from 'lucide-react'
-import { formatPrice, type Product } from '@/lib/products'
+import { type Product } from '@/lib/products'
 import { useStore } from '@/components/store-provider'
+
+// 🔥 LIVE COUNTRY + RATES
+import { useCountry } from '@/components/CountryContext'
 
 export function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useStore()
+  const { country, rates } = useCountry() // 🔥 get live rates
+
+  // 🔥 SAFE conversion (no crash)
+  const convertedPrice =
+    rates && rates[country.currency]
+      ? product.price * rates[country.currency]
+      : product.price
 
   return (
     <div className="group flex flex-col overflow-hidden rounded-sm border border-border bg-card transition-colors duration-300 hover:border-primary">
+      
+      {/* IMAGE */}
       <div className="relative aspect-square overflow-hidden">
         <Image
           src={product.image || '/placeholder.svg'}
@@ -22,20 +34,31 @@ export function ProductCard({ product }: { product: Product }) {
           {product.category === 'clothing' ? 'Clothing' : 'Health Mix'}
         </span>
       </div>
+
+      {/* CONTENT */}
       <div className="flex flex-1 flex-col p-5">
         <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
           {product.subtitle}
         </p>
+
         <h3 className="mt-1 font-serif text-xl text-foreground">
           {product.name}
         </h3>
+
         <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
           {product.description}
         </p>
+
         <div className="mt-5 flex items-center justify-between">
+          
+          {/* 🔥 LIVE PRICE */}
           <span className="font-serif text-lg text-primary">
-            {formatPrice(product.price)}
+            {rates && rates[country.currency]
+              ? `${country.symbol} ${convertedPrice.toFixed(2)}`
+              : `₹ ${product.price}`}
           </span>
+
+          {/* ADD TO CART */}
           <button
             type="button"
             onClick={() => addToCart(product)}
