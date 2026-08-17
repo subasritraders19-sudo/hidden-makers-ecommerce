@@ -1,0 +1,82 @@
+'use client'
+
+import Image from 'next/image'
+import Link from 'next/link'
+import { Plus } from 'lucide-react'
+import { type Product } from '@/lib/products'
+import { useStore } from '@/components/store-provider'
+
+// 🔥 LIVE COUNTRY + RATES
+import { useCountry } from '@/components/CountryContext'
+
+export function ProductCard({ product }: { product: Product }) {
+  const { addToCart } = useStore()
+  const { country, rates } = useCountry()
+
+  // 🔥 SAFE conversion
+  const convertedPrice =
+    rates && rates[country.currency]
+      ? product.price * rates[country.currency]
+      : product.price
+
+  return (
+    <div className="group flex flex-col overflow-hidden rounded-sm border border-border bg-card transition-colors duration-300 hover:border-primary">
+
+      {/* IMAGE */}
+      <Link
+        href={`/products/${product.id}`}
+        className="relative aspect-square overflow-hidden block"
+      >
+        <Image
+          src={product.image || '/placeholder.svg'}
+          alt={product.name}
+          fill
+          sizes="(max-width: 768px) 50vw, 25vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+
+        <span className="absolute left-3 top-3 rounded-sm bg-background/80 px-3 py-1 text-[10px] uppercase tracking-[0.15em] text-primary backdrop-blur">
+          {product.category === 'clothing' ? 'Clothing' : 'Health Mix'}
+        </span>
+      </Link>
+
+      {/* CONTENT */}
+      <div className="flex flex-1 flex-col p-5">
+
+        <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
+          {product.subtitle}
+        </p>
+
+        <Link href={`/products/${product.id}`}>
+          <h3 className="mt-1 font-serif text-xl text-foreground transition-colors hover:text-primary">
+            {product.name}
+          </h3>
+        </Link>
+
+        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+          {product.description}
+        </p>
+
+        <div className="mt-5 flex items-center justify-between">
+
+          {/* PRICE */}
+          <span className="font-serif text-lg text-primary">
+            {rates && rates[country.currency]
+              ? `${country.symbol} ${convertedPrice.toFixed(2)}`
+              : `₹ ${product.price}`}
+          </span>
+
+          {/* ADD TO CART */}
+          <button
+            type="button"
+            onClick={() => addToCart(product)}
+            className="flex items-center gap-2 rounded-sm border border-primary px-4 py-2 text-xs uppercase tracking-[0.15em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+          >
+            <Plus className="h-3.5 w-3.5" />
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
