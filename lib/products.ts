@@ -8,32 +8,33 @@ export type Product = {
   subtitle: string
   description: string
   image: string
+  comboEligible?: boolean
 }
 
 export const products: Product[] = [
-  {
-    id: 'mens-lungi',
-    name: "Men's Lungi",
-    price: 799,
-    category: 'clothing',
-    subtitle: 'Handwoven Cotton',
-    description:
-      'Breathable handwoven cotton lungi with a refined checked weave and a subtle gold border. A timeless staple of South Indian tradition.',
-    image: '/images/products/lungi.png',
-  },
-  {
-    id: 'pattu-pudavai',
-    name: "Women's Pattu Pudavai",
-    price: 4999,
-    category: 'clothing',
-    subtitle: 'Pure Silk Saree',
-    description:
-      'A comfortable and adorable Jabla Frock Knot designed specially for little ones. Made with soft, lightweight fabric, this frock-style jabla offers a gentle feel on delicate baby skin while providing easy movement and comfort throughout the day.The knot-style design makes dressing easy and convenient, while the cute frock pattern gives your little one a charming and stylish look. Perfect for everyday wear, playtime, outings, and special occasions.',
-    image: '/images/products/pattu.png',
-  },
+  // {
+  //   id: 'mens-lungi',
+  //   name: "Men's Lungi",
+  //   price: 799,
+  //   category: 'clothing',
+  //   subtitle: 'Handwoven Cotton',
+  //   description:
+  //     'Breathable handwoven cotton lungi with a refined checked weave and a subtle gold border. A timeless staple of South Indian tradition.',
+  //   image: '/images/products/lungi.png',
+  // },
+  // {
+  //   id: 'pattu-pudavai',
+  //   name: "Women's Pattu Pudavai",
+  //   price: 4999,
+  //   category: 'clothing',
+  //   subtitle: 'Pure Silk Saree',
+  //   description:
+  //     'A comfortable and adorable Jabla Frock Knot designed specially for little ones. Made with soft, lightweight fabric, this frock-style jabla offers a gentle feel on delicate baby skin while providing easy movement and comfort throughout the day.The knot-style design makes dressing easy and convenient, while the cute frock pattern gives your little one a charming and stylish look. Perfect for everyday wear, playtime, outings, and special occasions.',
+  //   image: '/images/products/pattu.png',
+  // },
   {
     id: 'Jabla-Frock-Knot',
-    name: "Baby Jabla Frock Knot",
+    name: " Muslin Jabla-Frock-Knot(0-3 months)",
     price: 225,
     category: 'clothing',
     subtitle: 'Pure cotton',
@@ -43,17 +44,17 @@ export const products: Product[] = [
   },
   {
     id: 'Jabla-Knot',
-    name: "Baby Jabla Frock Knot",
+    name: "Muslin Jabla-Knot(0-3 months)",
     price: 162,
     category: 'clothing',
     subtitle: 'Pure cotton',
     description:
       'A cute and comfortable Baby Jabla Frock Knot made with soft, lightweight fabric to keep your little one comfortable throughout the day. The adorable frock-style design gives a charming traditional look, while the convenient knot closure makes dressing easy and hassle-free.Perfect for everyday wear, playtime, outings, festive occasions, and special moments. Designed to provide gentle comfort and easy movement for your baby while keeping them looking adorable.',
-    image: '/images/products/JablaKnot.png',
+    image: '/images/products/1.png',
   },
   {
     id: 'Jabla-side-Knot',
-    name: "Baby Jabla-side-Knot",
+    name: " Muslin Jabla-side-Knot(0-3 months)",
     price: 195,
     category: 'clothing',
     subtitle: 'Pure cotton',
@@ -63,7 +64,7 @@ export const products: Product[] = [
   },
   {
     id:'co-order set',
-    name:"Baby co-order set",
+    name:"Muslin Boxy style co-order set(0-3 months)",
     price:336,
     category: 'clothing',
     subtitle: 'Pure cotton',
@@ -80,6 +81,7 @@ export const products: Product[] = [
     description:
       'A time-honoured bone and joint wellness blend, ground from carefully selected natural ingredients.',
     image: '/images/products/mudavatukal.png',
+    comboEligible: true,
   },
   {
     id: 'kollu-kanji',
@@ -90,6 +92,7 @@ export const products: Product[] = [
     description:
       'Protein-rich horse gram porridge mix, naturally roasted for a wholesome, comforting meal.',
     image: '/images/products/kollu.png',
+    comboEligible: true,
   },
   {
     id: 'pirandai-powder',

@@ -288,7 +288,38 @@ className="object-cover group-hover:scale-105 transition"
 
 
 
+ {/* COMBO OFFER 
 
+<section className="mx-auto max-w-7xl px-6 pb-20">
+
+  <div className="relative overflow-hidden rounded-sm border bg-card px-6 py-10 text-center md:px-12">
+
+    <p className="text-xs uppercase tracking-[0.25em] text-primary">
+      Mix & Match Offer
+    </p>
+
+    <h2 className="mt-3 font-serif text-3xl md:text-4xl">
+      Pick Any 2 Pouches
+    </h2>
+
+    <p className="mt-3 text-muted-foreground">
+      Choose any 2 selected health food pouches
+    </p>
+
+    <p className="mt-4 text-3xl font-semibold">
+      ₹399
+    </p>
+
+    <Link
+      href="/combo/pick-any-2"
+      className="mt-6 inline-flex rounded-sm bg-primary px-8 py-3 text-sm uppercase tracking-wide text-primary-foreground"
+    >
+      Shop Combo
+    </Link>
+
+  </div>
+
+</section> */}
 
 {/* PRODUCTS */}
 
