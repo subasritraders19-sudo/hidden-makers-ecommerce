@@ -73,6 +73,17 @@ export const products: Product[] = [
     image: '/images/products/coorderset.png',
   },
   {
+    id: 'combo pack',
+    name: 'Banana flower and Sweet potato (combo)',
+    price: 299,
+    category: 'food',
+    subtitle: 'Traditional Health Mix',
+    description:
+      'A time-honoured bone and joint wellness blend, ground from carefully selected natural ingredients.',
+    image: '/images/products/combo.png',
+    // comboEligible: true,
+  },
+  {
     id: 'mudavatukal-powder',
     name: 'Mudavatukal Powder',
     price: 299,
@@ -81,7 +92,7 @@ export const products: Product[] = [
     description:
       'A time-honoured bone and joint wellness blend, ground from carefully selected natural ingredients.',
     image: '/images/products/mudavatukal.png',
-    comboEligible: true,
+    // comboEligible: true,
   },
   {
     id: 'kollu-kanji',
@@ -92,7 +103,7 @@ export const products: Product[] = [
     description:
       'Protein-rich horse gram porridge mix, naturally roasted for a wholesome, comforting meal.',
     image: '/images/products/kollu.png',
-    comboEligible: true,
+    // comboEligible: true,
   },
   {
     id: 'pirandai-powder',
@@ -104,16 +115,16 @@ export const products: Product[] = [
       'A revered herbal powder traditionally used to support bone strength and digestion.',
     image: '/images/products/pirandai.png',
   },
-  {
-    id: 'abc-malt',
-    name: 'ABC Malt',
-    price: 199,
-    category: 'food',
-    subtitle: 'Apple Beetroot Carrot',
-    description:
-      'A nourishing malt drink mix from apple, beetroot and carrot — naturally sweet and rich in nutrients.',
-    image: '/images/products/abc-malt.png',
-  },
+  // {
+  //   id: 'abc-malt',
+  //   name: 'ABC Malt',
+  //   price: 199,
+  //   category: 'food',
+  //   subtitle: 'Apple Beetroot Carrot',
+  //   description:
+  //     'A nourishing malt drink mix from apple, beetroot and carrot — naturally sweet and rich in nutrients.',
+  //   image: '/images/products/abc-malt.png',
+  // },
   {
     id: 'sweet-potato-mix',
     name: 'Sweet Potato Mix',
