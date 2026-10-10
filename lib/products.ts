@@ -74,12 +74,12 @@ export const products: Product[] = [
   },
   {
     id: 'combo pack',
-    name: 'Banana flower and Sweet potato (combo)',
-    price: 299,
+    name: 'Mudavatukal Powder,Kollu Kanji Mix,Valaipoo Powder,Sweet Potato Mix,Pirandai Powder',
+    price: 999,
     category: 'food',
     subtitle: 'Traditional Health Mix',
     description:
-      'A time-honoured bone and joint wellness blend, ground from carefully selected natural ingredients.',
+        'A wholesome traditional combo featuring Mudavattukal Powder, Kollu Kanji Mix, Pirandai Powder, Valaipoo Powder, and Sweet Potato Mix. Made for those who appreciate traditional ingredients and the goodness of time-honoured food practices, this versatile collection brings authentic traditional flavours to your everyday routine.',
     image: '/images/products/combo.png',
     // comboEligible: true,
   },
