@@ -155,6 +155,26 @@ export const products: Product[] = [
       'Nutrient-dense banana flower powder, a heritage ingredient celebrated for its natural goodness.',
     image: '/images/products/valaipoo.png',
   },
+  {
+  id: 'Dates-powder',
+  name: 'Dates Powder',
+  price: 169,
+  category: 'food',
+  subtitle: 'Naturally Sweet Dates Goodness',
+  description:
+    'Made from dates, this naturally sweet powder is a convenient ingredient for adding date flavour and sweetness to milk, porridge, smoothies, desserts, and homemade recipes.',
+  image: '/images/products/dates1.png',
+  },
+  {
+  id: 'Raw-Nendran-Powder',
+  name: 'Raw Nendran Banana Powder',
+  price: 158,
+  category: 'food',
+  subtitle: 'Traditional Nendran Banana Goodness for Little Ones',
+  description:
+    'Made from raw Nendran bananas, this traditional banana powder is a versatile ingredient for preparing homemade baby porridge and other age-appropriate recipes. Easy to prepare and convenient for everyday cooking, it can be included in your little one’s diet according to their age and feeding needs.',
+  image: '/images/products/raw banana.png',
+},
 ]
 
 export function formatPrice(value: number) {
