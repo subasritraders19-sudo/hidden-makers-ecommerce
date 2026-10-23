@@ -14,7 +14,7 @@ const categories = [
   {
     title:'Clothing',
     description:
-      'Handwoven lungis and pure silk pattu pudavai, crafted in the South Indian tradition.',
+      'Beautifully crafted muslin babywear, blending timeless charm with gentle comfort for your little one.',
     image:'/images/cat-clothing.png',
     href:'/shop#clothing',
   },
