@@ -74,8 +74,8 @@ export const products: Product[] = [
   },
   {
     id: 'combo pack',
-    name: 'Mudavatukal Powder,Kollu Kanji Mix,Valaipoo Powder,Sweet Potato Mix,Pirandai Powder',
-    price: 999,
+    name: 'Mudavatukal Powder,Kollu Kanji Mix,Valaipoo Powder,Sweet Potato Mix,Pirandai Powder,Ash gourd',
+    price: 1099,
     category: 'food',
     subtitle: 'Traditional Health Mix',
     description:
